@@ -1,9 +1,9 @@
-package com.seabattle.seabattlelogic;
+package com.seabattle.logic;
 
-import com.seabattle.seabattlelogic.FieldWestPositionOutOfBoundsException;
-import com.seabattle.seabattlelogic.FieldNorthPositionOutOfBoundsException;
-import com.seabattle.seabattlelogic.FieldSouthPositionOutOfBoundsException;
-import com.seabattle.seabattlelogic.FieldEastPositionOutOfBoundsException;
+import com.seabattle.exceptions.FieldEastPositionOutOfBoundsException;
+import com.seabattle.exceptions.FieldNorthPositionOutOfBoundsException;
+import com.seabattle.exceptions.FieldSouthPositionOutOfBoundsException;
+import com.seabattle.exceptions.FieldWestPositionOutOfBoundsException;
 
 public class GameField {
 
@@ -32,28 +32,32 @@ public class GameField {
         setGameFieldAsEmpty();
     }
 
-    public void setShip(int positionX, int positionY, Direction direction, int lenght) throws FieldWestPositionOutOfBoundsException, FieldNorthPositionOutOfBoundsException, FieldEastPositionOutOfBoundsException, FieldSouthPositionOutOfBoundsException {
+    public void setShip(int positionX, int positionY, Direction direction, int lenght) {
         switch(direction) {
             case NORTH:
-                if (((positionY + 1) - lenght) < 0) throw new FieldNorthPositionOutOfBoundsException("North");
+                if (((positionY + 1) - lenght) < 0)
+                    throw new FieldNorthPositionOutOfBoundsException("North");
                 for (int i = 0; i < lenght; ++i) {
                     fields[positionY - i][positionX] = Field.CONTAIN;
                 }
                 break;
             case SOUTH:
-                if ((positionY + lenght) > (fields[fields.length - 1].length)) throw new FieldSouthPositionOutOfBoundsException("South");
+                if ((positionY + lenght) > (fields[fields.length - 1].length))
+                    throw new FieldSouthPositionOutOfBoundsException("South");
                 for (int i = 0; i < lenght; ++i) {
                     fields[positionY + i][positionX] = Field.CONTAIN;
                 }
                 break;
             case WEST:
-                if (((positionX + 1) - lenght) < 0) throw new FieldWestPositionOutOfBoundsException("West");
+                if (((positionX + 1) - lenght) < 0)
+                    throw new FieldWestPositionOutOfBoundsException("West");
                 for (int i = 0; i < lenght; ++i) {
                     fields[positionY][positionX - i] = Field.CONTAIN;
                 }
                 break;
             case EAST:
-                if ((positionX + lenght) > fields.length) throw new FieldEastPositionOutOfBoundsException("East");
+                if ((positionX + lenght) > fields.length)
+                    throw new FieldEastPositionOutOfBoundsException("East");
                 for (int i = 0; i < lenght; ++i) {
                     fields[positionY][positionX + i] = Field.CONTAIN;
                 }
@@ -61,7 +65,7 @@ public class GameField {
         }
     }
 
-    private void setGameFieldAsEmpty() {
+    public void setGameFieldAsEmpty() {
         for (int i = 0; i < fields.length; i++) {
             for (int j = 0; j < fields[i].length; j++) {
                 fields[i][j] = Field.EMPTY;
